@@ -54,7 +54,8 @@ public class QuestionAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 15;
+        //just 15 question between 20
+        return questionList.size();
     }
 
     @Override

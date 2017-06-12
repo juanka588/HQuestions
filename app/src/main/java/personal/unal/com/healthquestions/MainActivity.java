@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import personal.unal.com.healthquestions.Adapters.QuestionAdapter;
 import personal.unal.com.healthquestions.Data.AnswerOption;
+import personal.unal.com.healthquestions.Data.GameEngine;
 import personal.unal.com.healthquestions.GUI.HealthQuestionDialog;
 import personal.unal.com.healthquestions.Interfaces.OnAnswerOptionClick;
 
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
      */
     private ViewPager mViewPager;
 
+    private GameEngine gameEngine;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
+        gameEngine = new GameEngine("Juan", 0, 0);
     }
 
     @Override
@@ -57,10 +62,11 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
                         //add a new page
                         //sum to score
                         //re init timers
-
+                        Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_LONG).show();
                     } else {
                         //mark as error
                         //return to main window showing total score
+                        Toast.makeText(getApplicationContext(), "Perdiste", Toast.LENGTH_LONG).show();
                     }
                 }
                 //else do nothing
