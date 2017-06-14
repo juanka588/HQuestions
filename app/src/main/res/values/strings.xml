@@ -6,4 +6,6 @@
     <string name="option_no">No</string>
     <string name="option_yes">Yes, last word</string>
     <string name="time_up">Time is Over</string>
+    <string name="string_acept">Acept</string>
+    <string name="title_activity_result">ResultActivity</string>
 </resources>

@@ -19,6 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GUI.ResultActivity"
+            android:label="@string/title_activity_result"
+            android:screenOrientation="landscape"
+            android:theme="@style/HQTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

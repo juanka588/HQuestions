@@ -26,6 +26,7 @@
             android:text="60" />
 
         <Button
+            android:id="@+id/removeOps"
             style="@style/OptionStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
             android:text="50:50" />
 
         <Button
+            android:id="@+id/public_help"
             style="@style/OptionStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,6 +44,7 @@
             android:text="public" />
 
         <Button
+            android:id="@+id/skip_button"
             style="@style/OptionStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

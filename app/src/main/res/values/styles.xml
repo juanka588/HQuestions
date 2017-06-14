@@ -31,5 +31,9 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
+    <style name="HQTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="HQTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

@@ -1,5 +1,7 @@
 package personal.unal.com.healthquestions.Interfaces;
 
+import android.os.CountDownTimer;
+
 import personal.unal.com.healthquestions.Data.AnswerOption;
 
 /**
@@ -8,5 +10,9 @@ import personal.unal.com.healthquestions.Data.AnswerOption;
 
 public interface OnAnswerOptionClick {
 
-    void onAnswerOptionClicked(AnswerOption answerOption);
+    void onAnswerOptionClicked(AnswerOption answerOption, CountDownTimer timer);
+
+    void skipQuestion();
+
+    void finishGame();
 }

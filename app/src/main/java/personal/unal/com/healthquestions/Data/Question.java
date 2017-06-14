@@ -11,6 +11,28 @@ import java.util.List;
  */
 
 public class Question implements Parcelable {
+    private List<AnswerOption> options;
+    private String statement;
+    private int correctIndex;
+
+    public Question(List<AnswerOption> options, String statement) {
+        this.options = options;
+        this.statement = statement;
+        this.correctIndex = -1;
+    }
+
+    public Question(String statement) {
+        this.statement = statement;
+        this.options = new ArrayList<>();
+    }
+
+
+    protected Question(Parcel in) {
+        options = in.createTypedArrayList(AnswerOption.CREATOR);
+        statement = in.readString();
+        correctIndex = in.readInt();
+    }
+
     public static final Creator<Question> CREATOR = new Creator<Question>() {
         @Override
         public Question createFromParcel(Parcel in) {
@@ -22,23 +44,6 @@ public class Question implements Parcelable {
             return new Question[size];
         }
     };
-    private List<AnswerOption> options;
-    private String statement;
-
-    public Question(List<AnswerOption> options, String statement) {
-        this.options = options;
-        this.statement = statement;
-    }
-
-    public Question(String statement) {
-        this.statement = statement;
-        this.options = new ArrayList<>();
-    }
-
-    protected Question(Parcel in) {
-        statement = in.readString();
-//        options=new ArrayList<AnswerOption>(in.readParcelableArray(AnswerOption.class.getClassLoader()));
-    }
 
     public List<AnswerOption> getOptions() {
         return options;
@@ -56,14 +61,26 @@ public class Question implements Parcelable {
         this.statement = statement;
     }
 
+    public void addAnswerOption(AnswerOption option) {
+        if (option.isCorrect()) {
+            correctIndex = options.size();
+        }
+        options.add(option);
+    }
+
+    public int getCorrectIndex() {
+        return correctIndex;
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(statement);
-        dest.writeParcelableArray((Parcelable[]) options.toArray(), 0);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeTypedList(options);
+        parcel.writeString(statement);
+        parcel.writeInt(correctIndex);
     }
 }

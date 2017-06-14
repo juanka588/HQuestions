@@ -9,7 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import personal.unal.com.healthquestions.Data.PowerUp;
 import personal.unal.com.healthquestions.Data.Question;
 import personal.unal.com.healthquestions.Interfaces.OnAnswerOptionClick;
 import personal.unal.com.healthquestions.R;
@@ -24,23 +29,31 @@ public class QuestionFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_QUESTION = "question";
+    private static final String ARG_POWERS = "powers";
 
     private Question mQuestion;
     private OnAnswerOptionClick mCallback;
-    private Button timerBtn;
+    private Button timerBtn, optBtn1, optBtn2, optBtn3, optBtn4;
+
+    private Button removeOps, publicHelp, skipBtn;
+
+    private TextView qStatement;
+    private List<PowerUp> powers;
+
+    private CountDownTimer timer;
 
     public QuestionFragment() {
-
     }
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static QuestionFragment newInstance(Question question) {
+    public static QuestionFragment newInstance(Question question, ArrayList<PowerUp> powers) {
         QuestionFragment fragment = new QuestionFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_QUESTION, question);
+        args.putParcelableArrayList(ARG_POWERS, powers);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,63 +63,114 @@ public class QuestionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         this.mQuestion = getArguments().getParcelable(ARG_QUESTION);
+        this.powers = getArguments().getParcelableArrayList(ARG_POWERS);
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        associateControls(rootView);
 
+        bindData();
+
+        return rootView;
+    }
+
+    private void associateControls(View rootView) {
         timerBtn = (Button) rootView.findViewById(R.id.timer);
-        new CountDownTimer(30000, 1000) {
+        timer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timerBtn.setText("" + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                timerBtn.setText("done!");
+                mCallback.finishGame();
             }
         }.start();
 
-        TextView qStatement = (TextView) rootView.findViewById(R.id.question_statement);
-        qStatement.setText(mQuestion.getStatement());
+        qStatement = (TextView) rootView.findViewById(R.id.question_statement);
 
-        Button optBtn1 = (Button) rootView.findViewById(R.id.option_1);
+        optBtn1 = (Button) rootView.findViewById(R.id.option_1);
         optBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(0));
+                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(0), timer);
             }
         });
 
-        Button optBtn2 = (Button) rootView.findViewById(R.id.option_2);
+        optBtn2 = (Button) rootView.findViewById(R.id.option_2);
         optBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(1));
+                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(1), timer);
             }
         });
 
-        Button optBtn3 = (Button) rootView.findViewById(R.id.option_3);
+        optBtn3 = (Button) rootView.findViewById(R.id.option_3);
         optBtn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(2));
+                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(2), timer);
             }
         });
 
-        Button optBtn4 = (Button) rootView.findViewById(R.id.option_4);
+        optBtn4 = (Button) rootView.findViewById(R.id.option_4);
         optBtn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(3));
+                mCallback.onAnswerOptionClicked(mQuestion.getOptions().get(3), timer);
             }
         });
 
+        removeOps = (Button) rootView.findViewById(R.id.removeOps);
+        removeOps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!powers.get(0).isUsed()) {
+                    powers.get(0).showResult(QuestionFragment.this, mQuestion);
+                    powers.get(0).setUsed(true);
+                }
+            }
+        });
+        publicHelp = (Button) rootView.findViewById(R.id.public_help);
+        publicHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!powers.get(1).isUsed()) {
+                    powers.get(1).showResult(QuestionFragment.this, mQuestion);
+                    powers.get(1).setUsed(true);
+                }
+            }
+        });
+        skipBtn = (Button) rootView.findViewById(R.id.skip_button);
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (powers.get(2).isUsed()) {
+                    return;
+                }
+                mCallback.skipQuestion();
+                powers.get(2).setUsed(true);
+            }
+        });
+    }
+
+
+    public void bindData() {
+        qStatement.setText(mQuestion.getStatement());
         optBtn1.setText(mQuestion.getOptions().get(0).getOptionValue());
         optBtn2.setText(mQuestion.getOptions().get(1).getOptionValue());
         optBtn3.setText(mQuestion.getOptions().get(2).getOptionValue());
         optBtn4.setText(mQuestion.getOptions().get(3).getOptionValue());
-        return rootView;
-    }
+        if (powers.get(0).isUsed()) {
+            removeOps.setEnabled(false);
+        }
+        if (powers.get(1).isUsed()) {
+            publicHelp.setEnabled(false);
+        }
+        if (powers.get(2).isUsed()) {
+            skipBtn.setEnabled(false);
+        }
 
+    }
 
     @Override
     public void onAttach(Context context) {

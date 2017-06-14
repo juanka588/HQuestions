@@ -9,7 +9,10 @@ import java.util.Collections;
 import java.util.List;
 
 import personal.unal.com.healthquestions.Data.AnswerOption;
+import personal.unal.com.healthquestions.Data.PowerUp;
+import personal.unal.com.healthquestions.Data.PublicHelp;
 import personal.unal.com.healthquestions.Data.Question;
+import personal.unal.com.healthquestions.Data.RemoveOptions;
 import personal.unal.com.healthquestions.GUI.QuestionFragment;
 
 /**
@@ -19,28 +22,18 @@ import personal.unal.com.healthquestions.GUI.QuestionFragment;
 public class QuestionAdapter extends FragmentPagerAdapter {
 
     private List<Question> questionList;
+    private ArrayList<PowerUp> powers;
+    private int items = 1;
 
-    public QuestionAdapter(FragmentManager fm) {
+    public QuestionAdapter(FragmentManager fm, List<Question> questionList, ArrayList<PowerUp> powers) {
         super(fm);
-        questionList = new ArrayList<>(15);
-        Question q = new Question("¿Como me llamo?");
-        q.getOptions().add(new AnswerOption("Carlos", false));
-        q.getOptions().add(new AnswerOption("Laura", false));
-        q.getOptions().add(new AnswerOption("Claudia", false));
-        q.getOptions().add(new AnswerOption("Camilo", true));
-
-        questionList.add(q);
-
-        q = new Question("¿Otra Cosa?");
-        q.getOptions().add(new AnswerOption("Carlos", false));
-        q.getOptions().add(new AnswerOption("Laura", false));
-        q.getOptions().add(new AnswerOption("Claudia", false));
-        q.getOptions().add(new AnswerOption("Camilo", true));
-
-        questionList.add(q);
+        this.questionList = questionList;
+        this.powers = powers;
+    }
 
 
-        Collections.shuffle(questionList);
+    public void setItems(int items) {
+        this.items = items;
     }
 
     @Override
@@ -49,13 +42,13 @@ public class QuestionAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
 
         //get items must be replaced with get question index i
-        return QuestionFragment.newInstance(questionList.get(position));
+        return QuestionFragment.newInstance(questionList.get(position), powers);
     }
 
     @Override
     public int getCount() {
         //just 15 question between 20
-        return questionList.size();
+        return items;
     }
 
     @Override
