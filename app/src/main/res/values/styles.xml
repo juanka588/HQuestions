@@ -23,6 +23,12 @@
         <item name="android:padding">4dp</item>
     </style>
 
+    <style name="DisplayInfoStyle" parent="Base.V7.Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:background">@drawable/option_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
     <style name="ThemeHQDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>

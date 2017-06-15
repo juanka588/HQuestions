@@ -66,10 +66,10 @@ public class GameEngine implements Parcelable {
     };
 
     public void initGame() {
-        powers=new ArrayList<>(3);
-        powers.add( new RemoveOptions());
-        powers.add( new PublicHelp());
-        powers.add( new RemoveOptions());
+        powers = new ArrayList<>(3);
+        powers.add(new RemoveOptions());
+        powers.add(new PublicHelp());
+        powers.add(new RemoveOptions());
 
         Question q = new Question("¿Como me llamo?");
         q.addAnswerOption(new AnswerOption("Carlos", false));
@@ -81,9 +81,9 @@ public class GameEngine implements Parcelable {
 
         q = new Question("¿Otra Cosa?");
         q.addAnswerOption(new AnswerOption("Carlos", false));
-        q.addAnswerOption(new AnswerOption("Laura", false));
+        q.addAnswerOption(new AnswerOption("Laura", true));
         q.addAnswerOption(new AnswerOption("Claudia", false));
-        q.addAnswerOption(new AnswerOption("Camilo", true));
+        q.addAnswerOption(new AnswerOption("Camilo", false));
 
         questionList.add(q);
 
@@ -133,4 +133,13 @@ public class GameEngine implements Parcelable {
     }
 
 
+    public int getUsedPowers() {
+        int used = 0;
+        for (PowerUp pw : getPowers()) {
+            if (pw.isUsed()) {
+                used++;
+            }
+        }
+        return used;
+    }
 }

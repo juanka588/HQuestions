@@ -23,17 +23,11 @@ public class QuestionAdapter extends FragmentPagerAdapter {
 
     private List<Question> questionList;
     private ArrayList<PowerUp> powers;
-    private int items = 1;
 
     public QuestionAdapter(FragmentManager fm, List<Question> questionList, ArrayList<PowerUp> powers) {
         super(fm);
         this.questionList = questionList;
         this.powers = powers;
-    }
-
-
-    public void setItems(int items) {
-        this.items = items;
     }
 
     @Override
@@ -48,7 +42,7 @@ public class QuestionAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         //just 15 question between 20
-        return items;
+        return 1;
     }
 
     @Override

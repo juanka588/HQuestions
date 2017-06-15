@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -13,27 +14,13 @@ import personal.unal.com.healthquestions.Adapters.QuestionAdapter;
 import personal.unal.com.healthquestions.Data.AnswerOption;
 import personal.unal.com.healthquestions.Data.GameEngine;
 import personal.unal.com.healthquestions.GUI.HealthQuestionDialog;
+import personal.unal.com.healthquestions.GUI.QuestionFragment;
 import personal.unal.com.healthquestions.GUI.ResultActivity;
 import personal.unal.com.healthquestions.Interfaces.OnAnswerOptionClick;
 
 import static personal.unal.com.healthquestions.GUI.ResultActivityFragment.ARG_RESULTS;
 
 public class MainActivity extends AppCompatActivity implements OnAnswerOptionClick {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private QuestionAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
 
     private GameEngine gameEngine;
 
@@ -48,12 +35,15 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
         gameEngine = new GameEngine("Juan", 0, 0);
         gameEngine.initGame();
 
-        mSectionsPagerAdapter = new QuestionAdapter(getSupportFragmentManager()
-                , gameEngine.getQuestionList(), gameEngine.getPowers());
+        refreshScreen();
+    }
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
+    private void refreshScreen() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container
+                , QuestionFragment.newInstance(gameEngine.getQuestionList().get(currentQuestion)
+                        , gameEngine.getPowers()));
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -70,19 +60,17 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
                     if (answerOption.isCorrect()) {
                         //mark as correct
 
-                        //add a new page
-                        mSectionsPagerAdapter.setItems(currentQuestion + 1);
                         //sum to score
                         gameEngine.setScore(gameEngine.getScore() + 10);
-                        currentQuestion++;
+                        gameEngine.setProgress(gameEngine.getProgress() + 1);
                         //re init timers
                         timer.cancel();
+                        //add new question
                         addNewQuestion();
-
-
                     } else {
                         //mark as error
                         //return to main window showing total score
+                        timer.cancel();
                         finishGame();
                     }
                 }
@@ -92,23 +80,23 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
     }
 
     private void addNewQuestion() {
+        //add a new page
         currentQuestion++;
-        if (currentQuestion == gameEngine.getTotal()) {
+        if (gameEngine.getProgress() == gameEngine.getTotal() || currentQuestion >= gameEngine.getQuestionList().size()) {
             finishGame();
             return;
         }
-        mViewPager.setCurrentItem(currentQuestion);
+        refreshScreen();
     }
 
     @Override
     public void skipQuestion() {
-        Toast.makeText(this.getApplicationContext(), "callback called", Toast.LENGTH_LONG).show();
         addNewQuestion();
+        gameEngine.setTotal(gameEngine.getTotal() + 1);
     }
 
     @Override
     public void finishGame() {
-        Toast.makeText(this.getApplicationContext(), "must show statics and go to main", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(ARG_RESULTS, gameEngine);
         startActivity(intent);
