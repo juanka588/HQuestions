@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,10 +155,30 @@ public class QuestionFragment extends Fragment {
 
     public void bindData() {
         qStatement.setText(mQuestion.getStatement());
+        if (mQuestion.getStatement().length() > 30) {
+            qStatement.setTextSize(12);
+        }
+
         optBtn1.setText(mQuestion.getOptions().get(0).getOptionValue());
+        if (mQuestion.getOptions().get(0).getOptionValue().length() > 30) {
+            optBtn1.setTextSize(12);
+        }
         optBtn2.setText(mQuestion.getOptions().get(1).getOptionValue());
+        if (mQuestion.getOptions().get(1).getOptionValue().length() > 30) {
+            optBtn2.setTextSize(12);
+        }
+
         optBtn3.setText(mQuestion.getOptions().get(2).getOptionValue());
+        if (mQuestion.getOptions().get(2).getOptionValue().length() > 30) {
+            optBtn3.setTextSize(12);
+        }
+
         optBtn4.setText(mQuestion.getOptions().get(3).getOptionValue());
+
+        if (mQuestion.getOptions().get(3).getOptionValue().length() > 30) {
+            optBtn4.setTextSize(12);
+        }
+
         if (powers.get(0).isUsed()) {
             removeOps.setEnabled(false);
         }

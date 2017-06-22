@@ -23,10 +23,11 @@
         <item name="android:padding">4dp</item>
     </style>
 
-    <style name="DisplayInfoStyle" parent="Base.V7.Widget.AppCompat.AutoCompleteTextView">
+    <style name="DisplayInfoStyle">
         <item name="android:background">@drawable/option_background</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:paddingLeft">9dp</item>
     </style>
 
     <style name="ThemeHQDialog" parent="@android:style/Theme.Dialog">

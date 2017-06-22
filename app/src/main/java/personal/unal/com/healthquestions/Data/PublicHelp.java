@@ -1,7 +1,6 @@
 package personal.unal.com.healthquestions.Data;
 
 import android.content.Context;
-import android.os.Parcel;
 
 import personal.unal.com.healthquestions.GUI.HealthQuestionDialog;
 import personal.unal.com.healthquestions.GUI.QuestionFragment;
@@ -37,12 +36,13 @@ public class PublicHelp extends PowerUp {
             }
         }
 
+        String[] labels = new String[]{"A. ", "B. ", "C. ", "D. "};
+
         for (int i = 0; i < prob.length; i++) {
-            content.append("Answer ");
-            content.append((i + 1));
-            content.append(" has probability of ");
+            content.append(labels[i]);
+            content.append(" voto un  ");
             content.append((prob[i] + "").substring(0, 4));
-            content.append("% \n");
+            content.append("% del publico \n");
         }
 
         HealthQuestionDialog dialog = new HealthQuestionDialog(context,

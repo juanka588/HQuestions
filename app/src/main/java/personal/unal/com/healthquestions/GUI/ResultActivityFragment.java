@@ -38,7 +38,7 @@ public class ResultActivityFragment extends Fragment {
     private void bindData() {
         playerName.setText(gameEngine.getPlayerName());
         totalScore.setText("Puntaje Total: " + gameEngine.getScore());
-        totalPowers.setText("Ayudas Usadas" + gameEngine.getUsedPowers());
+        totalPowers.setText("Ayudas Usadas: " + gameEngine.getUsedPowers());
         progress.setText("Progreso: " + gameEngine.getProgress());
     }
 }
