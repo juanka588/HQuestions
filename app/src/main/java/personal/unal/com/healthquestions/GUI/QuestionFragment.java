@@ -29,15 +29,17 @@ public class QuestionFragment extends Fragment {
      */
     private static final String ARG_QUESTION = "question";
     private static final String ARG_POWERS = "powers";
+    private static final String ARG_SCORE = "score";
 
     private Question mQuestion;
     private OnAnswerOptionClick mCallback;
-    private Button timerBtn, optBtn1, optBtn2, optBtn3, optBtn4;
+    private Button timerBtn, optBtn1, optBtn2, optBtn3, optBtn4, score;
 
     private Button removeOps, publicHelp, skipBtn;
 
     private TextView qStatement;
     private List<PowerUp> powers;
+    private int currentScore;
 
     private CountDownTimer timer;
 
@@ -48,11 +50,13 @@ public class QuestionFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static QuestionFragment newInstance(Question question, ArrayList<PowerUp> powers) {
+    public static QuestionFragment newInstance(Question question
+            , ArrayList<PowerUp> powers, int score) {
         QuestionFragment fragment = new QuestionFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_QUESTION, question);
         args.putParcelableArrayList(ARG_POWERS, powers);
+        args.putInt(ARG_SCORE, score);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,6 +67,7 @@ public class QuestionFragment extends Fragment {
 
         this.mQuestion = getArguments().getParcelable(ARG_QUESTION);
         this.powers = getArguments().getParcelableArrayList(ARG_POWERS);
+        this.currentScore = getArguments().getInt(ARG_SCORE);
 
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         associateControls(rootView);
@@ -150,34 +155,48 @@ public class QuestionFragment extends Fragment {
                 powers.get(2).setUsed(true);
             }
         });
+        score = (Button) rootView.findViewById(R.id.total_score);
     }
 
+    public void adjustText(String text, TextView container) {
+        if (text == "") {
+            container.setText("");
+        }
+        if (text.length() > 30) {
+            container.setTextSize(12);
+        }
+        if (text.length() > 40) {
+            container.setTextSize(10);
+        }
+    }
+
+    public void adjustText(String text, Button container) {
+        if (text == "") {
+            container.setText("");
+        }
+        if (text.length() > 30) {
+            container.setTextSize(12);
+        }
+        if (text.length() > 40) {
+            container.setTextSize(10);
+        }
+    }
 
     public void bindData() {
         qStatement.setText(mQuestion.getStatement());
-        if (mQuestion.getStatement().length() > 30) {
-            qStatement.setTextSize(12);
-        }
+        adjustText(mQuestion.getStatement(), qStatement);
 
-        optBtn1.setText(mQuestion.getOptions().get(0).getOptionValue());
-        if (mQuestion.getOptions().get(0).getOptionValue().length() > 30) {
-            optBtn1.setTextSize(12);
-        }
-        optBtn2.setText(mQuestion.getOptions().get(1).getOptionValue());
-        if (mQuestion.getOptions().get(1).getOptionValue().length() > 30) {
-            optBtn2.setTextSize(12);
-        }
+        optBtn1.setText("A. " + mQuestion.getOptions().get(0).getOptionValue());
+        adjustText(mQuestion.getOptions().get(0).getOptionValue(), optBtn1);
 
-        optBtn3.setText(mQuestion.getOptions().get(2).getOptionValue());
-        if (mQuestion.getOptions().get(2).getOptionValue().length() > 30) {
-            optBtn3.setTextSize(12);
-        }
+        optBtn2.setText("B. " + mQuestion.getOptions().get(1).getOptionValue());
+        adjustText(mQuestion.getOptions().get(1).getOptionValue(), optBtn2);
 
-        optBtn4.setText(mQuestion.getOptions().get(3).getOptionValue());
+        optBtn3.setText("C. " + mQuestion.getOptions().get(2).getOptionValue());
+        adjustText(mQuestion.getOptions().get(2).getOptionValue(), optBtn3);
 
-        if (mQuestion.getOptions().get(3).getOptionValue().length() > 30) {
-            optBtn4.setTextSize(12);
-        }
+        optBtn4.setText("D. " + mQuestion.getOptions().get(3).getOptionValue());
+        adjustText(mQuestion.getOptions().get(3).getOptionValue(), optBtn4);
 
         if (powers.get(0).isUsed()) {
             removeOps.setEnabled(false);
@@ -188,7 +207,7 @@ public class QuestionFragment extends Fragment {
         if (powers.get(2).isUsed()) {
             skipBtn.setEnabled(false);
         }
-
+        score.setText("Puntos: " + currentScore);
     }
 
     @Override

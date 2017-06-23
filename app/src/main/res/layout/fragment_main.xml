@@ -17,6 +17,16 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/total_score"
+            style="@style/OptionStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:enabled="false"
+            android:paddingBottom="4dp"
+            android:text="puntos" />
+
+        <Button
             android:id="@+id/timer"
             style="@style/OptionStyle"
             android:layout_width="0dp"
@@ -24,6 +34,7 @@
             android:layout_weight="1"
             android:paddingBottom="4dp"
             android:text="60" />
+
 
         <Button
             android:id="@+id/removeOps"

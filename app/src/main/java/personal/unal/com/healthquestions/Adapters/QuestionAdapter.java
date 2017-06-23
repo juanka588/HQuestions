@@ -5,14 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import personal.unal.com.healthquestions.Data.AnswerOption;
 import personal.unal.com.healthquestions.Data.PowerUp;
-import personal.unal.com.healthquestions.Data.PublicHelp;
 import personal.unal.com.healthquestions.Data.Question;
-import personal.unal.com.healthquestions.Data.RemoveOptions;
 import personal.unal.com.healthquestions.GUI.QuestionFragment;
 
 /**
@@ -36,7 +32,7 @@ public class QuestionAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
 
         //get items must be replaced with get question index i
-        return QuestionFragment.newInstance(questionList.get(position), powers);
+        return QuestionFragment.newInstance(questionList.get(position), powers, 0);
     }
 
     @Override

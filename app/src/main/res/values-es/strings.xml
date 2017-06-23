@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthQuestions</string>
+    <string name="control_question">¿Esta seguro con esta respuesta?</string>
+    <string name="correct_answer">Respuesta Correcta</string>
+    <string name="next_question">Siguiente Pregunta</string>
+    <string name="option_no">No</string>
+    <string name="option_yes">Sí, Ultima palabra</string>
+    <string name="section_format"></string>
+    <string name="string_acept">Acepto</string>
+    <string name="time_up">Se acabo el tiempo</string>
+    <string name="title_activity_result">Resultados</string>
+</resources>

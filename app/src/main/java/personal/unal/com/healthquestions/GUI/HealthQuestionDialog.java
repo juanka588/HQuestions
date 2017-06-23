@@ -50,14 +50,18 @@ public class HealthQuestionDialog extends Dialog {
             header.setText(headerText);
         }
         cancelButton = (Button) this.findViewById(R.id.cancel_button);
-        cancelButton.setText(cancelButtonText);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HealthQuestionDialog.this.selection = SELECTION_NEGATIVE;
-                HealthQuestionDialog.this.cancel();
-            }
-        });
+        if (cancelButtonText == null || cancelButtonText.isEmpty()) {
+            cancelButton.setVisibility(View.GONE);
+        } else {
+            cancelButton.setText(cancelButtonText);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HealthQuestionDialog.this.selection = SELECTION_NEGATIVE;
+                    HealthQuestionDialog.this.cancel();
+                }
+            });
+        }
     }
 
     public int getSelection() {

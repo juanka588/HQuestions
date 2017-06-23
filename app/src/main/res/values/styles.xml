@@ -26,8 +26,9 @@
     <style name="DisplayInfoStyle">
         <item name="android:background">@drawable/option_background</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:layout_margin">4dp</item>
     </style>
 
     <style name="ThemeHQDialog" parent="@android:style/Theme.Dialog">

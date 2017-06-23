@@ -4,13 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import personal.unal.com.healthquestions.Adapters.QuestionAdapter;
 import personal.unal.com.healthquestions.Data.AnswerOption;
 import personal.unal.com.healthquestions.Data.GameEngine;
 import personal.unal.com.healthquestions.GUI.HealthQuestionDialog;
@@ -42,13 +38,13 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container
                 , QuestionFragment.newInstance(gameEngine.getQuestionList().get(currentQuestion)
-                        , gameEngine.getPowers()));
+                        , gameEngine.getPowers(), gameEngine.getScore()));
         fragmentTransaction.commit();
     }
 
     @Override
     public void onAnswerOptionClicked(final AnswerOption answerOption, final CountDownTimer timer) {
-        final HealthQuestionDialog dialog = new HealthQuestionDialog(this, R.drawable.logo, getString(R.string.action_settings)
+        final HealthQuestionDialog dialog = new HealthQuestionDialog(this, R.drawable.logo, null
                 , getString(R.string.control_question), getString(R.string.option_yes), getString(R.string.option_no)
                 , R.style.ThemeHQDialog);
         dialog.show();
@@ -86,7 +82,16 @@ public class MainActivity extends AppCompatActivity implements OnAnswerOptionCli
             finishGame();
             return;
         }
-        refreshScreen();
+        HealthQuestionDialog dialog = new HealthQuestionDialog(this, R.drawable.logo, null
+                , getString(R.string.correct_answer), getString(R.string.next_question), ""
+                , R.style.ThemeHQDialog);
+        dialog.show();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface d) {
+                refreshScreen();
+            }
+        });
     }
 
     @Override
